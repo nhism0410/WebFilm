@@ -1,0 +1,35 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block lichchieu %}
+<main id="main-contents" class="col-xs-12 col-sm-12 col-md-8 p-2">
+    {% for weekday, films_days in schedule.items %} 
+    <h4 class="border-bottom pb-1">{{weekday}} <a href="#" class="float-right btn btn-sm btn-dark">Xem thêm</a></h4>
+    {% if films_days %}
+        <div class="row">
+            {% for films_day in films_days %}
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <a href="{% url 'home:info_films' films_day.film.id %}" style="text-decoration: none;color: inherit;">
+                            <div class="card-body p-1">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <img src="{{films_day.film.hinhanh.url }}" class="rounded-circle" style="width: 70px; height: 70px; object-fit: cover;" alt="Avatar"/>
+                                    </div>
+                                    <div class="col-9">
+                                        <p class="px-1 my-1"  style="font-size: 18px;font-weight: 500;">{{ films_day.film.title }}</p>
+                                        <p style="font-style: italic; font-family: sans-serif; font-size: 13px;">Tập mới nhất  <span style="color:#f90">{{ films_day.film.tap_films.0.tentap }}</span></p>
+                                    </div>
+                                </div>  
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h6 style="color:red; font-weight: bold;">Hiện chưa cập nhật phim nào có lịch {{weekday}}</h6>
+    {% endif %}
+    {% endfor %}
+</main>
+{% endblock %}

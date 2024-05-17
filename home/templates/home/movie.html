@@ -1,0 +1,146 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block movie %}
+<main id="main-contents" class="col-xs-12 col-sm-12 col-md-9 p-2">
+    <!-- cem video -->
+    <div id="video-container">
+        <video id="video" width="100%" height="100%" controls onplay="incrementViewCount('{{ film_mv.TenFilm.id }}')">
+            <source src="/media/{{ film_mv.video }}" type="video/mp4">
+        </video>
+        <div class="d-grid gap-2 d-md-block justify-content-end text-end mx-3   ">
+            {% if is_first_tap %}
+                <button class="btn btn-primary btn-sm m-0 p-1" style="font-size: 12px" type="button" disabled><i class="bi bi-skip-backward-fill" style="font-size:12px"></i> Tập trước</button>
+            {% else %}
+                <a href="{% url 'home:movie' previous_tap.id %}" class="text-decoration-none"><button class="btn btn-primary btn-sm m-0 p-1" style="font-size: 12px" type="button"><i class="bi bi-skip-backward-fill" style="font-size:12px"></i> Tập trước</button></a>
+            {% endif %}
+            {% if next_tap_id %}
+                <a href="{% url 'home:movie' next_tap_id %}"><button class="btn btn-primary btn-sm m-0 p-1" style="font-size: 12px" type="button"><i class="bi bi-skip-forward-fill" style="font-size: 12px"></i> Tập tiếp theo</button></a>
+            {% else %}
+                <button class="btn btn-primary btn-sm m-0 p-1" style="font-size: 12px" type="button" disabled><i class="bi bi-skip-forward-fill" style="font-size: 12px"></i> Tập tiếp theo</button>
+            {% endif %}
+            <a href=""><button id="toggle-light" class="btn btn-primary btn-sm" type="button" style="font-size: 12px"><i class="bi bi-sunset-fill" style="font-size: 12px"></i> Tắt đèn</button></a>
+            <button class="btn btn-primary btn-sm" type="button" style="font-size: 12px"><i class="bi bi-exclamation-triangle-fill" style="font-size: 12px"></i> Báo lỗi</button>
+        </div>
+    </div>
+    <!-- end xem video -->
+
+
+
+    <div class="d-grid gap-2 d-md-block justify-content-end my-1">
+        <button class="btn btn-primary btn-sm" type="button" style="font-size: 11px"><i class="bi bi-heart-fill" style="font-size: 11px"></i> Thích 20</button>
+        <button class="btn btn-primary btn-sm" style="font-size: 11px" type="button">Chia sẻ</button>
+    </div>
+    <div class="d-grid gap-2 d-md-block justify-content-end my-1">
+        <button class="btn btn-primary btn-sm" type="button" style="font-size: 13px"><i class="bi bi-bookmark-fill" style="font-size: 13px"></i> Lưu vào Facebook</button>
+    </div>
+    
+    <!-- search tap film -->
+    <div class="container align-middle my-4 mx-0">
+        <p style="font-size: 13px; font-weight: bold; margin: 1px"><i class="bi bi-search"></i> TÌM TẬP NHANH <i class="bi bi-chevron-down"></i></p>
+        <input type="text" name="episode" placeholder="Nhập số tập" style="width:18%">
+    </div>
+    <!-- end search tap film -->
+    
+    <!-- list tap film -->
+    <div class="d-grid gap-2 d-md-block mx-2 my-4 p-2" style="border: 1px solid; border-radius: 5px">
+        {% for tap in all_tap %}
+            {% if tap.id == film_mv.id %}
+                <button class="btn btn-warning" style="margin:1px" type="button">{{ tap.tentap }}</button>
+            {% else %}
+                <a href="{% url 'home:movie' tap.id %}?film_id={{ film_id }}">
+                    <button class="btn btn-primary" style="margin:1px" type="button">{{ tap.tentap }}</button>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+    
+    
+    <!-- list tap film -->
+
+    <!-- lich chieu phim -->
+    <div class="container align-middle" style="border: 1px solid; border-radius: 5px;">
+        <div class="d-flex justify-content-between">
+            <span style="font-size:22px"> <i class="bi bi-exclamation-circle-fill"></i> {{film_mv.TenFilm}} Tập 30 Việt Sub | HH3D</span>
+            <span><i class="bi bi-star-fill" style="color: orange; font-size: 20px"></i>{{ average_rating|default:"Chưa có đánh giá" }}/5   ({{ total_votes }} lượt) 
+                {% for star in "*****" %}
+                    {% if forloop.counter <= average_rating %}
+                        <i class="bi bi-star-fill" style="color: orange; font-size: 20px"></i>
+                    {% else %}
+                        <i class="bi bi-star-fill" style="color: gray; font-size: 20px"></i>
+                    {% endif %}
+                {% endfor %}</span>
+        </div>  
+    </div>
+    <div class="container align-middle " style="border: 1px solid; border-radius:5px">
+        <p style="margin-bottom:7px"><i class="bi bi-calendar-date" style="font-size:22px"></i> <b>Phim Chiếu 1 Tập Vào Trưa</b>    <b>Thứ 5</b></p>
+    </div>
+    <!-- lich chieu phim -->
+    
+    <!-- comment -->
+    <div class="container-comment my-5">
+        <form method="post" action="{% url 'home:post_comment_movie' tap_film_id=film_id %}">
+            {% csrf_token %}
+            <div class="row align-items-center">
+                <div class="col-md-1">
+                    <img src="{% if request.user.userprofile.avatar %}{{ request.user.userprofile.avatar.url }}{% else %}{% static 'image/thach_hao.ico' %}{% endif %}" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover; position: relative;" alt="Avatar" />
+                </div>
+                <div class="col-md-9 align-items-start mx-0">
+                    <textarea class="form-control" name="comment" required placeholder="Tham gia bình luận"></textarea>
+                    <!-- Trường ẩn cho created_at -->
+                    <input type="hidden" name="created_at" value="{% now 'Y-m-d H:i:s' %}">
+                </div>
+                <div class="col-md-2 align-items-end">
+                    <input type="submit" style="width: 70%" class="btn btn-primary btn-block" value="Gửi" />
+                </div>
+            </div>
+        </form> 
+    </div>
+    
+    <p class="border-bottom pb-1 my-5 mx-3">{{ total_comments }} BÌNH LUẬN <a href="#" class="float-right btn btn-sm btn-dark">Mới Nhất</a></p>
+    <div class="container"> 
+        {% for comment in comments %}
+        <div class="comment" style="margin-bottom: 10px;">
+            <div class="row align-items-center" style="height: 100px;">
+                <div class="col-md-1" style="display: flex; justify-content: center; align-items: center;">
+                    <img src="{% if comment.user_profile.avatar %}{{ comment.user_profile.avatar.url }}{% else %}{% static 'image/default_avatar.png' %}{% endif %}" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;" alt="Avatar">
+                </div>  
+                <div class="col-md-10" style="border: 1px solid; border-radius: 10px;">
+                    <div class="row align-items-center" style="height: 30px;">
+                        <div class="col-md-6" style="color: lightgreen; font-weight: bold; font-size: 18px;">
+                            <p>{% if comment.user_profile.nickname %}{{ comment.user_profile.nickname }}{% else %}{{ comment.user_profile.account_name }}{% endif %}</p>
+                        </div>
+                        <div class="col-md-6 text-right" style="font-size: 12px; color: lightgray;">
+                            <p>{{ comment.created_at|timesince }} trước</p>
+                        </div>
+                    </div>
+                    <p class="mx-1">{{ comment.comment }}</p>
+                    <div class="row align-items-center" style="font-size: 12px;">
+                        <div class="col-md-11">
+                            <i class="bi bi-hand-thumbs-up" style="font-size: 14px;"> 0 </i>   
+                            <i class="bi bi-reply-fill" style="margin-left: 15px; font-size: 14px;"> Phản hồi </i> 
+                        </div>
+                    </div>                                       
+                </div>
+            </div>
+        </div>          
+        {% empty %}
+        <p>Chưa có bình luận nào.</p>
+        {% endfor %}
+        <div class="pagination d-flex justify-content-center my-5">
+            <span class="step-links">
+                {% if comments.has_previous %}
+                    <a href="?page=1" class="btn btn-sm btn-outline-secondary">&laquo; 1</a>
+                    <a href="?page={{ comments.previous_page_number }}" class="btn btn-sm btn-outline-secondary">&lsaquo; {{ comments.previous_page_number }}</a>
+                {% endif %}
+                <span class="current">Page {{ comments.number }} of {{ comments.paginator.num_pages }}</span>
+                {% if comments.has_next %}
+                    <a href="?page={{ comments.next_page_number }}" class="btn btn-sm btn-outline-secondary">{{ comments.next_page_number }} &rsaquo;</a>
+                    <a href="?page={{ comments.paginator.num_pages }}" class="btn btn-sm btn-outline-secondary">{{ comments.paginator.num_pages }} &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    
+
+</main>
+{% endblock %}

@@ -1,0 +1,101 @@
+#main-contents {
+  margin: 0 auto;
+}
+
+
+.carousel-inner .carousel-item {
+  display: inline-block;
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  overflow: hidden;
+}
+
+.carousel-inner .carousel-item .row {
+  display: flex;
+}
+
+.carousel-inner .carousel-item .col {
+  flex: 1;
+  padding: 0;
+}
+
+.bi {
+  font-size: 1.2rem; /* Kích thước chữ */
+}
+
+#video-container {
+  position: relative;
+}
+
+#video-container.dark-mode {
+  background-color: black;
+  color: white;
+  z-index: 1; /* Đảm bảo video được hiển thị trên nền đen */
+}
+
+#video {
+  position: relative;
+  z-index: 2; /* Đảm bảo video được hiển thị trên nền đen */
+}
+
+
+.btn-link:hover {
+  text-decoration: none !important; /* Ngăn chặn hiển thị gạch chân */
+  color: inherit !important; /* Giữ màu chữ không đổi */
+}
+.btn-light a {
+text-decoration: none; /* Loại bỏ gạch chân */
+color: inherit;
+}
+.btn-light .active {
+background-color: yellow; /* Đổi màu nền thành màu vàng */
+color: black; /* Đổi màu chữ thành đen */
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Hình ảnh tự động cover đầy thẻ img */
+  border-radius: 50%; /* Làm tròn hình ảnh thành hình tròn */
+}
+.img-container {
+  width: 60px; /* Kích thước của hình ảnh */
+  height: 60px; /* Kích thước của hình ảnh */
+}
+
+
+.searchform {
+  display: flex;
+  align-items: center;
+}
+
+.searchform .form-control {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.searchform .btn-primary {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  transition: background-color 0.3s ease;
+}
+
+.searchform .btn-primary:hover {
+  background-color: #6c757d;
+}
+
+.searchform .form-control:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+}
+
+.dropdown-menu {
+  display: none;
+  left: auto;
+  right: 0;
+}
+
+.btn-group:hover .dropdown-menu {
+  display: block;
+  
+}
+

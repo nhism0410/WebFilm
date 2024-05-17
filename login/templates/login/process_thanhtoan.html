@@ -1,0 +1,58 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block process_thanhtoan %}
+<main id="main-contents" class="col-xs-12 col-sm-12 col-md-9 p-2">
+    <div class="row">
+        <form method="post" action="{% url 'login:thanhtoan' %}">
+            {% csrf_token %}
+            <div class="col-7">
+                <div class="my-4">
+                    <h4 class="mx-3 py-3">Bước 2/3: Chọn thời hạn gói {{ten_goi}}</h4>
+                    <ul>
+                        {% for index, thoi_han, gia in thoi_han_goi %}
+                        <li style="list-style-type: none; border: 1px solid; padding: 15px 10px; border-radius: 5px; font-weight:500;margin: 5px 0px; position: relative;">
+                            <label for="package_choice_{{ index }}" style="display: block; width: 100%;">
+                                <input type="radio" id="package_choice_{{ index }}" value="{{ index }}" name="package_choice_{{ index }}">
+                                {{ thoi_han }} 
+                                <span style="float: right; color:rgb(81, 243, 81);">{{ gia }} VND</span>
+                            </label>
+                            <input type="hidden" name="thoi_han" value="{{ thoi_han }}">
+                            <input type="hidden" name="gia" value="{{ gia }}">
+                        </li>                    
+                        {% endfor %}    
+                    </ul>
+                </div>
+                <div class="my-5">  
+                    <h4 class="mx-3 py-3" style="margin-bottom: 0px; padding-bottom:0px">Bước 3/3: Chọn phương thức thanh toán </h4>
+                    <p class="mx-4" style="font-size:13px; margin-bottom: 0px">
+                        <i class="bi bi-info-circle" style="font-size: 13px;color:rgb(6, 207, 6)"></i> Gói gia hạn tháng chỉ hỗ trợ thanh toán bằng thẻ thanh toán quốc tế và ví điện tử
+                    </p>
+                    <p class="mx-4" style="font-size:13px; margin-bottom: 20px">
+                        <i class="bi bi-lock-fill" style="font-size: 13px;color:rgb(6, 207, 6)"></i> Mọi giao dịch của bạn đều được bảo mật
+                    </p>
+                    <ul>
+                        {% for index, phuong_thuc in phuong_thuc_thanh_toan %}
+                        <li style="list-style-type: none; border: 1px solid; padding: 15px 10px; border-radius: 5px; font-weight:500;margin: 5px 0px">
+                            <label for="payment_choice_{{ index }}">
+                                <input type="radio" id="payment_choice_{{ index }}" value="{{ index }}" name="payment_choice"> 
+                                {% if index == 0 %}
+                                <img src="{% static 'image/shopeepay_icon.svg'%}">
+                                {% elif index == 1 %}
+                                <img src="{% static 'image/icon-ZaloPay.svg' %}">
+                                {% elif index == 2 %}
+                                <img src="{% static 'image/momo_icon.svg' %}">
+                                {% endif %}
+                                {{ phuong_thuc }}
+                            </label>
+                            <input type="hidden" name="phuong_thuc" value="{{ phuong_thuc }}">
+                        </li>
+                        {% endfor %}
+                    </ul>   
+                </div>
+            <input type="hidden" name="ten_goi" value="{{ ten_goi }}">
+            <input type="hidden" name="gia_goi" value="{{ gia_goi }}">
+                <button type="submit">Submit</button>
+        </form>
+        </div>
+</main>
+{% endblock %}

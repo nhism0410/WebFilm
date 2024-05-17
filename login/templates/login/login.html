@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/login.css' %}">
+</head>
+<body>
+    <div class="center">
+        <div class="form-container">
+            <h2>Đăng nhập</h2>
+            <form method="post">
+                {% csrf_token %}
+                <label for="id_username_login">Tài khoản:</label>
+                {{ form.username_login }}
+                <label for="id_password">Mật khẩu:</label>
+                {{ form.password }}
+                {{ form.captcha }}
+                <input style="margin-top:10px" type="submit" value="Đăng nhập">
+                <p style="color: white">Nếu chưa có tài khoản => <button type="button"><a style="text-decoration: none !important;" href="{% url 'login:register' %}">Đăng ký</a></button></p>
+                <p style="color: white"> Không dùng tài khoản => <button type="button"><a style="text-decoration: none !important;" href="{% url 'home:home' %}">Trang chủ</a></button></p>
+                {% if error_message %}
+                <p class="error-message">{{ error_message }}</p>  
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</body>
+</html>

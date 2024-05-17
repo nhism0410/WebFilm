@@ -1,0 +1,16 @@
+
+{% extends 'home/base.html' %}
+
+{% block confirm_unfollow  %}
+<main id="main-contents" class="col-xs-12 col-sm-12 col-md-8 p-2">
+    <div class="container mt-3 mb-5">
+        <h4>Xác nhận xóa phim khỏi danh sách theo dõi</h4>
+        <p>Bạn có chắc chắn muốn xóa phim "{{ film.title }}" khỏi danh sách theo dõi?</p>
+        <form action="{% url 'chedule:unfollow' film.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Xác nhận</button>
+            <a href="{% url 'chedule:followed_films' %}" class="btn btn-secondary">Hủy</a>
+        </form>
+    </div>
+</main>
+{% endblock %}

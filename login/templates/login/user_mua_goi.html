@@ -1,0 +1,40 @@
+{% extends 'login/profile.html' %}
+{% load static %}
+
+{% block mua_goi %}
+<main id="main-contents" class="col-xs-12 col-sm-12 col-md-9 p-2">
+    <div class="container mt-3 mb-5">
+        <h5 class="border-bottom pb-1">Các gói đã mua</h5>
+        <div class="row py-3">
+            <div class="col">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Tên gói</th>
+                                <th>Giá gói</th>
+                                <th>Thời hạn</th>
+                                <th>Phương thức thanh toán</th>
+                                <th>Ngày mua gói</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for muagoi in muagoi_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ muagoi.tengoi }}</td>
+                                <td>{{ muagoi.giagoi }}</td>
+                                <td>{{ muagoi.thoihan }}</td>
+                                <td>{{ muagoi.phuongthucthanhtoan }}</td>
+                                <td>{{ muagoi.ngaymuagoi }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

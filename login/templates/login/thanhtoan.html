@@ -1,0 +1,48 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block thanhtoan %}
+<main id="main-contents" class="col-xs-12 col-sm-12 col-md-9 p-2">
+    <div class="col-5">
+        <div class="card" style="width: 100%; margin-top:70px;">
+            <form method="post" action="{% url 'login:muagoi' %}">
+                {% csrf_token %}
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <h4 style="font-weight: bold; margin-top: 15px">Thông tin chi tiết</h4>
+                        <p>Tài khoản <span style="float:right;font-weight:500">{{ user_profile.user.username }}</span></p>
+                        <hr style="border-style: dashed; margin-bottom:8px">
+                    </li> 
+                    <li class="list-group-item">
+                        <p>Tên gói <span style="float: right;">{{ ten_goi }}</span></p> 
+                        <p>Thời hạn gói <span style="float: right;">{{ thoi_han }}</span></p>
+                        <hr style="border-style: dashed; margin-bottom:8px; margin-top:25px">
+                    </li>
+                    <li class="list-group-item">
+                        <p>Ngày hiệu lực <span style="float: right;">{{ current_date|date:"d/m/Y" }}</span></p>
+                        <p>Sử dụng đến <span style="float: right;">Khi bạn hủy</span></p>
+                        <p>Kỳ thanh toán tiếp theo <span style="float: right;">{{ky_thanh_toan_tiep_theo|date:"d/m/Y"}}</span></p>
+                        <hr style="border-style: dashed;margin-bottom:8px;margin-top:25px">
+                    </li>
+                    <li class="list-group-item" >
+                        <p>Trị giá <span style="float: right;">{{ gia }} VND</span></p>
+                        <p>Giảm giá <span style="float: right;">0 VND</span></p>
+                        <hr style="border-style: dashed;margin-bottom:8px;margin: top 25px;">
+                    </li>
+                    <li class="list-group-item">
+                        <p>Thành tiền <span style="float: right;">{{ gia }} VND</span></p>
+                        <p>Phương thức thanh tóan <span style="float: right;">{{ phuong_thuc }}</span></p>
+                        <!-- Thêm các trường input ẩn để gửi lên server -->
+                        <input type="hidden" name="tengoi" value="{{ ten_goi }}">
+                        <input type="hidden" name="giagoi" value="{{ gia }}">
+                        <input type="hidden" name="thoihan" value="{{ thoi_han }}">
+                        <input type="hidden" name="phuongthucthanhtoan" value="{{ phuong_thuc }}">
+                        <input type="hidden" name="ngaymuagoi" value="{{ current_date }}">
+                        <!-- Nút gửi form -->
+                        <button class="btn btn-success" style="padding:5px 60px; width: 100%; font-size:20px; font-weight:bold" type="submit">Thanh toán</button>
+                    </li>
+                </ul>
+            </form>
+        </div>
+    </div>  
+</main>
+{% endblock %}

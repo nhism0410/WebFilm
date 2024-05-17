@@ -1,0 +1,74 @@
+body {
+    background-image: url('/website_film/media/image/login.jpg');
+    background-size: cover;
+}
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Chiều cao của màn hình */
+}
+.form-container {
+    width: 300px; /* Chiều rộng của form */
+    padding: 20px;
+    border: 1px solid #ccc; /* Đường viền form */
+    border-radius: 5px; /* Bo tròn viền form */
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền form với độ mờ 50% */
+}
+/* CSS cho các dòng thuộc tính và input của form */
+.form-container label {
+    display: block; /* Hiển thị mỗi label trên một dòng */
+    margin-bottom: 10px;
+    color: white; /* Khoảng cách dưới giữa các label */
+}
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="password"] {
+    width: 100%; /* Chiều rộng của input là 100% */
+    padding: 8px; /* Padding cho input */
+    margin-bottom: 10px; /* Khoảng cách dưới giữa các input */
+    box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước của input */
+}
+.form-container .button-group {
+    display: flex; /* Hiển thị các nút trong nhóm theo hàng ngang */
+    justify-content: space-between; /* Căn các nút từng đầu hàng ngang */
+}
+.form-container input[type="submit"],   
+.form-container button {
+    width: 48%; /* Chiều rộng của input và button */
+    padding: 10px; /* Padding cho input và button */
+    background-color: #4CAF50; /* Màu nền của input và button */
+    color: white; /* Màu chữ của input và button */
+    border: none; /* Loại bỏ đường viền của input và button */
+    border-radius: 5px; /* Bo tròn viền của input và button */
+    cursor: pointer; /* Biến con trỏ thành hand khi hover */
+}
+.form-container input[type="submit"]:hover,
+.form-container button:hover {
+    background-color: #45a049; /* Màu nền hover của input và button */
+}
+.form-container .success-message {
+    color: green; /* Màu chữ màu xanh lá */
+    font-size: 16px; /* Kích thước font */
+    margin-top: 10px;
+    font-weight:bold; /* Khoảng cách phía trên */
+}
+.form-container .error-message{
+    color: red;
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight:bold;
+}
+
+h4{
+    display: block; /* Hiển thị mỗi label trên một dòng */
+    margin-bottom: 20px;
+    margin-top: 10px;
+    color: white;
+    text-align: center;
+    font-size: 30px;
+}
+a{
+    text-decoration: none !important; /* Ngăn chặn hiển thị gạch chân */
+    color: inherit !important; /* Giữ màu chữ không đổi */  
+}

@@ -1,0 +1,79 @@
+/* CSS cho trang đăng nhập */
+
+body {
+    background-image: url('/media/image/bg_login.jpg');
+    background-size: cover;
+    margin: 0; /* Loại bỏ margin mặc định */
+    display: flex; /* Sử dụng flexbox */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    height: 100vh; /* Chiều cao của màn hình */
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Chiều cao của màn hình */
+}
+
+.form-container {
+    width: 300px; /* Chiều rộng của form */
+    padding: 20px;
+    border: 1px solid #ccc; /* Đường viền form */
+    border-radius: 5px; /* Bo tròn viền form */
+    background-color: rgba(0, 0, 0, 0.5); /* Màu nền form với độ mờ 50% */
+    text-align: center; /* Căn giữa nội dung trong form */
+}
+
+/* CSS cho các dòng thuộc tính và input của form */
+.form-container h2 {
+    margin-bottom: 20px; /* Khoảng cách dưới giữa các label */
+    margin-top: 10px;
+    color: white;
+    font-size: 30px;
+}
+
+.form-container label {
+    display: block; /* Hiển thị mỗi label trên một dòng */
+    margin-bottom: 10px;
+    color: white; /* Màu chữ của label */
+}
+
+.form-container input[type="text"],
+.form-container input[type="password"] {
+    width: 100%; /* Chiều rộng của input là 100% với padding trừ đi */
+    padding: 8px; /* Padding cho input */
+    margin-bottom: 10px; /* Khoảng cách dưới giữa các input */
+    box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước của input */
+}
+
+.form-container .button-group {
+    display: flex; /* Hiển thị các nút trong nhóm theo hàng ngang */
+    justify-content: space-between; /* Căn các nút từng đầu hàng ngang */
+}
+
+.form-container input[type="submit"] {
+    padding: 10px; /* Padding cho input */
+    background-color: #4CAF50; /* Màu nền của input */
+    color: white; /* Màu chữ của input */
+    border: none; /* Loại bỏ đường viền của input */
+    border-radius: 5px; /* Bo tròn viền của input */
+    cursor: pointer; /* Biến con trỏ thành hand khi hover */
+    width: 100%; /* Chiều rộng của input */
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #45a049; /* Màu nền hover của input */
+}
+
+.form-container .error-message {
+    color: red; /* Màu chữ màu đỏ */
+    margin-top: 10px; /* Khoảng cách phía trên */
+    font-size: 16px; /* Kích thước font */
+    font-weight: bold; /* Đậm */
+}
+.form-container label,
+.form-container p {
+    text-align: left; /* Căn trái nội dung của label và thẻ p */
+}

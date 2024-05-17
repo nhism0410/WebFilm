@@ -1,0 +1,140 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block profile %}
+<main id="main-contents" class="col-xs-12 col-sm-12 col-md-9 p-2">
+    <div class="container mt-3 mb-5">
+        <h5 class="border-bottom pb-1">Thông tin cá nhân </h5>
+        <div class="row py-3">
+            <div class="col-4">
+                <div class="card" style="width: 100%;">
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                        <img id="avatar-preview" src="{% if request.user.userprofile.avatar %}{{ request.user.userprofile.avatar.url }}{% else %}{% static 'image/thach_hao.ico' %}{% endif %}" style="width: 100px; height: 100px; border-radius: 50%;" alt="Avatar">
+                        <div class="mt-3">
+                            <a style="text-decoration: none !important;" href="#">
+                                <form id="avatar-form" method="post" enctype="multipart/form-data" action="{% url 'login:upload_avatar' %}">
+                                    {% csrf_token %}
+                                    <input type="file" id="id_avatar" name="avatar" style="display: none;" onchange="this.form.submit()">
+                                </form>
+                                
+                                <button type="button" onclick="changeAvatar()">THAY ĐỔI AVATAR</button>
+                                
+                            </a>
+                            {% if request.user.userprofile.nickname %}
+                                <h5 style="font-weight:600; margin-top:15px; margin-left: 20px">{{ request.user.userprofile.nickname }}</h5>
+                            {% else %}
+                                <h5 style="font-weight:600; margin-top:15px;margin-left: 20px">{{ request.user.username }}</h5>
+                            {% endif %}
+                        </div>  
+                    </div>
+                    <p class="card-text">
+                        {% if request.user.userprofile.additional_info %}
+                            <span style="font-weight:bold; font-size:25px; margin-bottom: 0px;">"</span>{{ request.user.userprofile.additional_info }}<span style="font-weight:bold; font-size:20px;">"</span>
+                        {% else %}
+                            <span style="color: red; font-weight:bold;">Chưa để lại châm ngôn 😊</span>
+                        {% endif %}
+                    </p>                    
+                </div>
+            </div>
+            <div class="col-8 px-5 py-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="id_nickname" style="font-weight:bold">Biệt Danh:</label>
+                    <p>
+                        <input type="hidden" id="id_nickname_initial" name="nickname_initial" value="{{ request.user.userprofile.nickname }}">
+                        <input type="text" id="id_nickname" name="nickname" value="{{ request.user.userprofile.nickname }}" readonly>
+                        <button type="button" onclick="enableInput('id_nickname')">Thay Đổi</button>
+                    </p>
+                    <label class="child" for="id_birth_date" style="font-weight:bold">Ngày Sinh:</label>
+                    <p>
+                        <input type="hidden" id="id_birth_date_initial" name="birth_date_initial" value="{{ request.user.userprofile.birth_date }}">
+                        <input type="date" id="id_birth_date" name="birth_date" value="{{ request.user.userprofile.birth_date|date:'Y-m-d' }}" readonly>
+                        <button type="button" onclick="enableInput('id_birth_date')">Thay Đổi</button>
+                    </p>
+                    <label for="id_vitri" style="font-weight:bold">Nơi Sinh:</label>
+                    <p>
+                        <input type="hidden" id="id_vitri_initial" name="vitri_initial" value="{{ request.user.userprofile.vitri }}">
+                        <input type="text" id="id_vitri" name="vitri" value="{{ request.user.userprofile.vitri }}" readonly>
+                        <button type="button" onclick="enableInput('id_vitri')">Thay Đổi</button>
+                    </p>
+                    <label class="child" for="id_account_name" style="font-weight:bold">Tên Tài Khoản:</label>
+                    <p>
+                        <input type="hidden" id="id_account_name_initial" name="account_name_initial" value="{{ request.user.userprofile.account_name }}">
+                        <input type="text" id="id_account_name" name="account_name" value="{{ request.user.username }}" readonly>
+                        <button type="button" onclick="enableInput('id_account_name')">Thay Đổi</button>
+                    </p>                    
+                    <label class="child" for="id_email" style="font-weight:bold">Email:</label>
+                    <p>
+                        <input type="hidden" id="id_email_initial" name="email_initial" value="{{ request.user.userprofile.email }}">
+                        <input type="email" id="id_email" name="email" value="{{ request.user.email }}" readonly>
+                        <button type="button" onclick="enableInput('id_email')">Thay Đổi</button>
+                    </p>
+                    <label class="child" for="id_registration_date" style="font-weight:bold">Ngày Đăng Ký:</label>
+                    <p>
+                        <input type="text" id="id_registration_date" name="registration_date" value="{{ request.user.date_joined|date:'Y-m-d' }}" readonly>
+                    </p>
+                    <!-- Thêm textarea -->
+                    <label class="child" for="id_additional_info" style="font-weight:bold;">Châm Ngôn:</label>
+                    <p>
+                        <textarea id="id_additional_info" style="width:90%" name="additional_info" rows="4" cols="50" readonly>{{ request.user.userprofile.additional_info }}</textarea>
+                        <button type="button" onclick="enableInput('id_additional_info')">Thay Đổi</button>
+                    </p>
+                    <button type="submit" class="btn bttn-md" style="background-color: orange">Cập Nhật</button>
+                </form>             
+            </div>
+        </div>  
+    </div>
+    <a href="{% url 'login:user_mua_goi' %}"><button type="button" >Các gói đã mua</button></a>
+    {% block mua_goi %}
+    {% endblock %}
+</main>
+<script>
+    function enableInput(inputId) {
+        var input = document.getElementById(inputId);
+        input.removeAttribute("readonly");
+        // Lấy giá trị ban đầu từ trường hidden và gán vào trường nhập liệu
+        var initialInput = document.getElementById(inputId + "_initial");
+        input.value = initialInput.value;
+        initialInput.remove(); // Xóa trường hidden sau khi gán giá trị vào trường nhập liệu
+    }
+    function changeAvatar() {
+        document.getElementById("id_avatar").click();
+    }
+    
+    function previewAvatar(event) {
+        var input = event.target;
+        var reader = new FileReader();
+        reader.onload = function() {
+            var dataURL = reader.result;
+            var img = document.getElementById("avatar-preview");
+            img.src = dataURL;
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+    </script>
+<style>
+    input, textarea {
+        border-radius: 4px;
+        border: 1px solid;
+        width: 80%;
+        padding: 3px;
+    }
+    button {
+        border-radius: 5px;
+        border: none;
+        padding: 4px;
+        margin-left: 5px;
+    }      
+    .child {
+        margin-top: 5px;
+    } 
+    .card-text {
+        border-left: 5px solid;
+        border-color: lightseagreen;
+        background-color: lightgray ;
+        padding: 15px;
+    }
+    .card-text {
+        margin-top: 20px;
+    }
+</style>
+{% endblock %}
